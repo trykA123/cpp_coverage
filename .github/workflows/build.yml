@@ -30,6 +30,7 @@ jobs:
 
       - name: Cobertura Action
         uses: 5monkeys/cobertura-action@master
+        if: success() || failure()
         with:
           path: ${{ github.workspace }}/coverage/coverage-gcovr.json
           minimum_coverage: 35
