@@ -25,8 +25,12 @@ jobs:
         run: make build
       - name: 2. Run executable
         run: ./main
-      - name: 3. Generate Gcovr XML report
-        run: gcovr --xml -o coverage/coverage-gcovr.xml
+      - name: 3. Create coverage folder
+        run: mkdir -p ${{ github.workspace }}/coverage
+
+      - name: 4. Generate Gcovr XML report
+        run: gcovr --xml -o ${{ github.workspace }}/coverage/coverage-gcovr.xml
+
 
       # - name: Publish coverage reports
       #   uses: actions/upload-artifact@v2
