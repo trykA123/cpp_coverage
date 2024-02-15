@@ -25,12 +25,8 @@ jobs:
         run: make build
       - name: 2. Run executable
         run: ./main
-      - name: 3. Generate reports
-        # run: |
-        #   make lcov-report
-        #   lcov_cobertura --base-dir . --output coverage-cobertura.xml --rc lcov_branch_coverage=1 lcov.info
-        #   gcovr --xml -o coverage-gcovr.xml
-        run: gcovr --xml
+      - name: 3. Generate Gcovr XML report
+        run: gcovr --xml -o coverage/coverage-gcovr.xml
 
       # - name: Publish coverage reports
       #   uses: actions/upload-artifact@v2
