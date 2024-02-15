@@ -30,7 +30,7 @@ jobs:
         #   make lcov-report
         #   lcov_cobertura --base-dir . --output coverage-cobertura.xml --rc lcov_branch_coverage=1 lcov.info
         #   gcovr --xml -o coverage-gcovr.xml
-        run: gcovr --cobertura
+        run: gcovr --xml
 
       # - name: Publish coverage reports
       #   uses: actions/upload-artifact@v2
