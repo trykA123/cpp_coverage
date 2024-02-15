@@ -11,7 +11,7 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: make deps
@@ -25,14 +25,14 @@ jobs:
       - name: Create coverage folder
         run: mkdir -p ${{ github.workspace }}/coverage
 
-      - name: Generate Gcovr JSON report
-        run: gcovr --json -o ${{ github.workspace }}/coverage/coverage-gcovr.json
+      - name: Generate Gcovr XML report
+        run: gcovr --xml -o ${{ github.workspace }}/coverage/coverage-gcovr.xml
 
       - name: Cobertura Action
         uses: 5monkeys/cobertura-action@master
         if: success() || failure()
         with:
-          path: ${{ github.workspace }}/coverage/coverage-gcovr.json
+          path: ${{ github.workspace }}/coverage/coverage-gcovr.xml
           minimum_coverage: 35
 
       # - name: Publish Test Report
