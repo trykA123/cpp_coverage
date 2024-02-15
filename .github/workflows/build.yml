@@ -25,8 +25,8 @@ jobs:
       - name: Create coverage folder
         run: mkdir -p ${{ github.workspace }}/coverage
 
-      - name: Generate Gcovr XML report
-        run: gcovr --xml -o ${{ github.workspace }}/coverage/coverage-gcovr.xml
+      - name: Generate Gcovr JSON report
+        run: gcovr --json -o ${{ github.workspace }}/coverage/coverage-gcovr.json
 
       # - name: Cobertura Action
       #   uses: 5monkeys/cobertura-action@master
@@ -39,4 +39,4 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: success() || failure() # always run even if the previous step fails
         with:
-          report_paths: ${{ github.workspace }}/coverage/coverage-gcovr.xml
+          report_paths: ${{ github.workspace }}/coverage/coverage-gcovr.json
