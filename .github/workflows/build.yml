@@ -1,4 +1,4 @@
-name: Build
+name: Code Coverage
 
 on:
   push:
@@ -8,39 +8,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cpp-linter/cpp-linter-action@v2
-        with:
-          style: "LLVM"
-          tidy-checks: "-*" # disable tidy check
-          lines-changed-only: "false"
 
-      - name: Install dependency
+      - name: Install dependencies
         run: make deps
 
-      - name: 1. Compile
+      - name: Build
         run: make build
-      - name: 2. Run executable
+
+      - name: Run tests
         run: ./main
-      - name: 3. Create coverage folder
+
+      - name: Create coverage folder
         run: mkdir -p ${{ github.workspace }}/coverage
 
-      - name: 4. Generate Gcovr XML report
+      - name: Generate Gcovr XML report
         run: gcovr --xml -o ${{ github.workspace }}/coverage/coverage-gcovr.xml
 
+      - name: Generate Lcov report
+        run: |
+          make lcov-report
+          lcov_cobertura --base-dir . --output ${{ github.workspace }}/coverage/coverage-cobertura.xml --rc lcov_branch_coverage=1 lcov.info
 
-      # - name: Publish coverage reports
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: coverage-reports
-      #     path: |
-      #       coverage-cobertura.xml
-      #       coverage-gcovr.xml
-
-      # - name: Code Coverage Summary Report
-      #   uses: irongut/CodeCoverageSummary@v1.3.0
-      #   with:
-      #     filename: coverage.cobertura.xml
+      - name: Publish coverage reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: |
+            ${{ github.workspace }}/coverage/coverage-gcovr.xml
+            ${{ github.workspace }}/coverage/coverage-cobertura.xml
