@@ -7,6 +7,9 @@ on:
     branches: ["master"]
   workflow_dispatch:
 
+permissions:
+  checks: write
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
