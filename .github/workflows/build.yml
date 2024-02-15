@@ -28,9 +28,15 @@ jobs:
       - name: Generate Gcovr XML report
         run: gcovr --xml -o ${{ github.workspace }}/coverage/coverage-gcovr.xml
 
-      - name: Publish coverage reports
-        uses: actions/upload-artifact@v2
+      # - name: Publish coverage reports
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: coverage-reports
+      #     path: |
+      #       ${{ github.workspace }}/coverage/coverage-gcovr.xml
+
+      - name: Cobertura Action
+        uses: 5monkeys/cobertura-action@master
         with:
-          name: coverage-reports
-          path: |
-            ${{ github.workspace }}/coverage/coverage-gcovr.xml
+          path: ${{ github.workspace }}/coverage/coverage-gcovr.xml
+          minimum_coverage: 75
