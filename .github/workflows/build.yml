@@ -16,9 +16,6 @@ jobs:
       - name: Install dependencies
         run: make deps
 
-      - name: Install lcov_cobertura
-        run: sudo apt-get install lcov_cobertura
-
       - name: Build
         run: make build
 
@@ -31,15 +28,9 @@ jobs:
       - name: Generate Gcovr XML report
         run: gcovr --xml -o ${{ github.workspace }}/coverage/coverage-gcovr.xml
 
-      - name: Generate Lcov report
-        run: |
-          make lcov-report
-          lcov_cobertura --base-dir . --output ${{ github.workspace }}/coverage/coverage-cobertura.xml --rc lcov_branch_coverage=1 lcov.info
-
       - name: Publish coverage reports
         uses: actions/upload-artifact@v2
         with:
           name: coverage-reports
           path: |
             ${{ github.workspace }}/coverage/coverage-gcovr.xml
-            ${{ github.workspace }}/coverage/coverage-cobertura.xml
