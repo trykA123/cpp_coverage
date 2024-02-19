@@ -31,19 +31,8 @@ jobs:
       - name: Generate Gcovr XML report
         run: gcovr --cobertura -o coverage-gcovr.xml
 
-      - name: Code Coverage Summary Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
+      - name: Generate sumary report
+        uses: ./.github/actions/coverage-gate
         with:
           filename: coverage-gcovr.xml
-          badge: true
-          fail_below_min: true
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: true
-          indicators: true
-          output: both
           thresholds: "50 80"
-
-      - name: Write report
-        run: |
-          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

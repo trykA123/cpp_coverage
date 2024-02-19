@@ -1,0 +1,32 @@
+name: Coverage gate
+description: GitHub action that provides an interface to deal with code coverage
+inputs:
+  filename:
+    description: See https://github.com/irongut/CodeCoverageSummary/blob/v1.3.0/action.yml#L9
+    required: true
+  thresholds:
+    description: See https://github.com/irongut/CodeCoverageSummary/blob/v1.3.0/action.yml#L39
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Code coverage summary report
+      id: report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: ${{ inputs.filename }}
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: ${{ inputs.thresholds }}
+
+    - name: Write report to summary
+      id: output
+      shell: bash
+      run: |
+        cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
