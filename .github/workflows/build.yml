@@ -2,10 +2,9 @@ name: Code Coverage
 
 on:
   push:
-    branches: ["master"]
+    branches: "**"
   pull_request:
-    branches: ["master"]
-  workflow_dispatch:
+    branches: "**"
 
 permissions:
   pull-requests: write
