@@ -58,6 +58,12 @@ jobs:
       #     recreate: true
       #     path: code-coverage-results.md
 
+      # Upload the coverage.xml as an artifact for the next job
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
+
   upload_coverage_to_influxdb:
     needs: coverage
     runs-on: ubuntu-latest
